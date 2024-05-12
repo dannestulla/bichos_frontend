@@ -26,13 +26,14 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Animal>> imagesList = ref.watch(
         animalsListProvider);
+    MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(title: const Text('Central do Resgate')),
             body: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: kIsWeb ? 5 : 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: setNumberOfColumns(mediaQuery.size.width),
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                 ),
@@ -52,6 +53,20 @@ class MyApp extends ConsumerWidget {
             )
         )
     );
+  }
+
+  int setNumberOfColumns(double width) {
+    if (width < 500) {
+      return 3;
+    } else if (width < 900){
+      return 4;
+    } else if (width < 1300) {
+      return 5;
+    } else if (width < 1800) {
+      return 6;
+    } else {
+      return 7;
+    }
   }
 
   void showImageDialog(BuildContext context, Animal animal) {
