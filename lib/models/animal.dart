@@ -1,10 +1,11 @@
 import 'dart:typed_data';
-import 'package:json_annotation/json_annotation.dart';
 
 class Animal {
   final Uint8List picture;
   final String page;
-  final String comment;
+  String? comment;
+  final String fileName;
+  final String date;
 
-  Animal({required this.picture, required this.page, required this.comment});
+  Animal({required this.picture, required this.page, required this.fileName, this.comment, required this.date});
 }

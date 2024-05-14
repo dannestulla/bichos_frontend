@@ -1,34 +1,55 @@
-import 'dart:typed_data';
-import 'dart:ui';
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../../credentials.dart';
+import 'package:bichos_client/models/comment.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../bichos_usecases/bichos_usecases.dart';
+import '../credentials.dart';
 import '../models/animal.dart';
+import 'package:http/http.dart' as http;
 
 part 'bichos_providers.g.dart';
 
+int pageSize = 50;
+int? fullPicturesListCount;
 
 @riverpod
-Future<List<Animal>> animalsList(AnimalsListRef ref) async {
-  List<Animal> imagesList = [];
-  final fileList = await fetchFileList();
-  for (final fullPath in fileList) {
-    final pageName = fullPath.split("/")[1];
-    final fileName = fullPath.split("/")[2];
-    Uint8List picture = await downloadImage(pageName, fileName);
-    imagesList.add(Animal(
-        picture: picture,
-        page: pageName,
-        comment: ""
-    ));
-  }
-  return imagesList;
+PagingController<int, Animal> animalsPaging(AnimalsPagingRef ref) {
+  final controller = PagingController<int, Animal>(firstPageKey: 0);
+  return controller;
 }
 
-Future<List<String>> fetchFileList() async {
+@riverpod
+Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
+  final fileList = (await ref.watch(fileListProvider.future)).reversed;
+  final pagingList = fileList.toList().sublist(pageKey, pageKey + pageSize);
+  final results = await Future.wait([createImagesList(pagingList), createCommentsList(pagingList)]);
+  List<Animal> imagesList = results[0] as List<Animal>;
+  List<Comment> commentsList = results[1] as List<Comment>;
+
+  Map<String, String> commentMap = {};
+  for (var comment in commentsList) {
+    commentMap[comment.fileName!] = comment.comment!;
+  }
+
+  for (var image in imagesList) {
+    image.comment = commentMap[image.fileName];
+  }
+
+  if (fullPicturesListCount == null) {
+    List<String> jpgFiles = fileList.where((file) => file.toLowerCase().endsWith('.jpg')).toList();
+    fullPicturesListCount = jpgFiles.length;
+  }
+  final isLastPage = fullPicturesListCount == imagesList.length;
+  if (isLastPage) {
+    ref.read(animalsPagingProvider).appendLastPage(imagesList);
+  } else {
+    final nextPageKey = pageKey + imagesList.length;
+    ref.read(animalsPagingProvider).appendPage(imagesList, nextPageKey);
+  }
+}
+
+@riverpod
+Future<List<String>> fileList(FileListRef ref) async {
   final url = Uri.parse(worker);
   try {
     final response = await http.get(url);
@@ -47,11 +68,3 @@ Future<List<String>> fetchFileList() async {
   }
 }
 
-Future<Uint8List> downloadImage(String bucketId, String fileName) async {
-  final uri = Uri.parse('$bucketUrl%2F$bucketId%2F$fileName');
-  final response = await http.get(uri, headers: {
-    'Authorization': 'Bearer $secretAccessKey'
-  });
-  Uint8List imageData = Uint8List.fromList(response.body.codeUnits);
-  return imageData;
-}

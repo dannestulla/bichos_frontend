@@ -1,71 +1,71 @@
-import 'dart:typed_data';
-
 import 'package:bichos_client/models/animal.dart';
 import 'package:bichos_client/providers/bichos_providers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
   runApp(
     const ProviderScope(
-      child: MyApp(),
+      child: Bichos(),
     ),
   );
 }
 
-
-
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class Bichos extends ConsumerStatefulWidget {
+  const Bichos({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Animal>> imagesList = ref.watch(
-        animalsListProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => BichosState();
+}
+
+class BichosState extends ConsumerState<Bichos> {
+  @override
+  initState() {
+    super.initState();
+    ref.read(animalsPagingProvider).addPageRequestListener((pageKey) {
+      ref.watch(animalsListProvider(pageKey));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final pagingController = ref.watch(animalsPagingProvider);
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(title: const Text('Central do Resgate')),
-            body: GridView.builder(
+            body: PagedGridView<int, Animal>(
+                pagingController: pagingController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: setNumberOfColumns(mediaQuery.size.width),
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
                 ),
-                itemCount: imagesList.value?.length,
-                itemBuilder: (context, index) {
+                builderDelegate: PagedChildBuilderDelegate<Animal>(
+                    itemBuilder: (context, item, index) {
                   return Card(
-                      child: switch (imagesList) {
-                        AsyncData(:final value) =>  GestureDetector(
-                          onTap: () => showImageDialog(context, value[index]),
-                          child: Image.memory(value[index].picture),
-                        ),
-                        AsyncError(:final error) => Text('error: $error'),
-                        _ => const Center(child: CircularProgressIndicator())
-                      }
-                  );
-                }
-            )
-        )
-    );
+                      child: GestureDetector(
+                        onTap: () => showImageDialog(context, item),
+                        child: Image.memory(item.picture),
+                  ));
+                }))));
   }
 
   int setNumberOfColumns(double width) {
     if (width < 500) {
-      return 3;
-    } else if (width < 900){
       return 4;
-    } else if (width < 1300) {
+    } else if (width < 900) {
       return 5;
-    } else if (width < 1800) {
+    } else if (width < 1300) {
       return 6;
-    } else {
+    } else if (width < 1800) {
       return 7;
+    } else {
+      return 8;
     }
   }
 
@@ -74,19 +74,26 @@ class MyApp extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          child: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-                children: [
-              Expanded(child: Image.memory(animal.picture)),
-              Text(animal.comment,style: const TextStyle(fontSize: 30)),
-              OutlinedButton(onPressed: () { _launchURL(animal.page); },
-              child: Text(animal.page, style: const TextStyle(fontSize: 30)))
-            ]
-            ),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Expanded(child: Image.memory(animal.picture)),
+                  Text("Data da postagem: ${animal.date}",
+                      style: const TextStyle(fontSize: 16)),
+                  animal.comment != null
+                      ? Text(animal.comment!, style: const TextStyle(fontSize: 16))
+                      : Container(),
+                  OutlinedButton(
+                      onPressed: () {
+                        _launchURL(animal.page);
+                      },
+                      child:
+                          Text(animal.page, style: const TextStyle(fontSize: 18)))
+                ]),
           ),
-        );
+        ));
       },
     );
   }
