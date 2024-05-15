@@ -1,10 +1,11 @@
-import 'package:bichos_client/models/animal.dart';
-import 'package:bichos_client/providers/bichos_providers.dart';
+import 'package:bichos_client/presentation/bichos_pageview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../domain/models/animal.dart';
+import '../domain/providers/bichos_providers.dart';
+import 'bichos_dialog.dart';
 
 void main() {
   runApp(
@@ -13,6 +14,11 @@ void main() {
     ),
   );
 }
+// Instagram Pages added to main screen
+const pages = [
+  "meubichotasalvocanoas",
+  "acheseupetrs"
+];
 
 class Bichos extends ConsumerStatefulWidget {
   const Bichos({super.key});
@@ -34,10 +40,9 @@ class BichosState extends ConsumerState<Bichos> {
   Widget build(BuildContext context) {
     final pagingController = ref.watch(animalsPagingProvider);
     MediaQueryData mediaQuery = MediaQuery.of(context);
-
     return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
         home: Scaffold(
-            appBar: AppBar(title: const Text('Central do Resgate')),
             body: PagedGridView<int, Animal>(
                 pagingController: pagingController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -50,58 +55,22 @@ class BichosState extends ConsumerState<Bichos> {
                   return Card(
                       child: GestureDetector(
                         onTap: () => showImageDialog(context, item),
-                        child: Image.memory(item.picture),
+                        child: Image.memory(item.pictures[0]),
                   ));
                 }))));
   }
 
   int setNumberOfColumns(double width) {
     if (width < 500) {
-      return 4;
+      return 3;
     } else if (width < 900) {
-      return 5;
+      return 4;
     } else if (width < 1300) {
-      return 6;
+      return 5;
     } else if (width < 1800) {
-      return 7;
+      return 6;
     } else {
-      return 8;
-    }
-  }
-
-  void showImageDialog(BuildContext context, Animal animal) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Expanded(child: Image.memory(animal.picture)),
-                  Text("Data da postagem: ${animal.date}",
-                      style: const TextStyle(fontSize: 16)),
-                  animal.comment != null
-                      ? Text(animal.comment!, style: const TextStyle(fontSize: 16))
-                      : Container(),
-                  OutlinedButton(
-                      onPressed: () {
-                        _launchURL(animal.page);
-                      },
-                      child:
-                          Text(animal.page, style: const TextStyle(fontSize: 18)))
-                ]),
-          ),
-        ));
-      },
-    );
-  }
-
-  void _launchURL(String page) async {
-    final fullLink = "https://www.instagram.com/$page";
-    if (!await launchUrl(Uri.parse(fullLink))) {
-      throw 'Could not launch $fullLink';
+      return 7;
     }
   }
 }

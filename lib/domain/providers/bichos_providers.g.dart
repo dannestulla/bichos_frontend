@@ -6,7 +6,7 @@ part of 'bichos_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$animalsPagingHash() => r'b3c0949b8cfe90f504c90a339458d2ab606f989b';
+String _$animalsPagingHash() => r'36cf9924b5ce47794b63a7b4160c86715f37dc0e';
 
 /// See also [animalsPaging].
 @ProviderFor(animalsPaging)
@@ -23,7 +23,7 @@ final animalsPagingProvider =
 
 typedef AnimalsPagingRef
     = AutoDisposeProviderRef<PagingController<int, Animal>>;
-String _$animalsListHash() => r'8d65b639771671535e4efc02a3c378e7bb29a125';
+String _$animalsListHash() => r'5f336d9428476c67134458a99d970076bbfc54a9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,19 +172,20 @@ class _AnimalsListProviderElement extends AutoDisposeFutureProviderElement<void>
   int get pageKey => (origin as AnimalsListProvider).pageKey;
 }
 
-String _$fileListHash() => r'b16aff264fe790d81dd8454e04d74173295c8f59';
+String _$fileListsHash() => r'2ecdf8179ebd69efa31d9b21bfce99532696895b';
 
-/// See also [fileList].
-@ProviderFor(fileList)
-final fileListProvider = AutoDisposeFutureProvider<List<String>>.internal(
-  fileList,
-  name: r'fileListProvider',
+/// See also [fileLists].
+@ProviderFor(fileLists)
+final fileListsProvider =
+    AutoDisposeFutureProvider<List<List<String>>>.internal(
+  fileLists,
+  name: r'fileListsProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fileListHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$fileListsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FileListRef = AutoDisposeFutureProviderRef<List<String>>;
+typedef FileListsRef = AutoDisposeFutureProviderRef<List<List<String>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

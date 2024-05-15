@@ -1,7 +1,7 @@
 
 class Comment {
   String? comment;
-  String? fileName;
+  String fileName;
 
   Comment(this.comment, this.fileName);
 }
