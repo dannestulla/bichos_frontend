@@ -91,6 +91,11 @@ String getDate(String fileName) {
   return "$splitDay-${nameList[1]}-${nameList[0]}";
 }
 
+String convertToISOFormat(String date) {
+  List<String> parts = date.split("-");
+  return "${parts[2]}-${parts[1]}-${parts[0]}";
+}
+
 bool isAnimalInSameFolder(String fileName, String previousImageName) {
   // Checks if image belongs to same group of images
   int index = fileName.indexOf("UTC");

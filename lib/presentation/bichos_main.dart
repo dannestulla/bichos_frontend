@@ -17,7 +17,9 @@ void main() {
 // Instagram Pages added to main screen
 const pages = [
   "meubichotasalvocanoas",
-  "acheseupetrs"
+  "acheseupetrs",
+  "acheseudogulbra",
+  "petresgatado_canoas"
 ];
 
 class Bichos extends ConsumerStatefulWidget {
