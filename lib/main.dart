@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../domain/models/animal.dart';
-import '../domain/providers/bichos_providers.dart';
-import 'bichos_dialog.dart';
+import 'domain/models/animal.dart';
+import 'domain/providers/bichos_providers.dart';
+import 'presentation/bichos_dialog.dart';
 
 void main() {
   runApp(
