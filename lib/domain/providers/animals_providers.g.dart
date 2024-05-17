@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bichos_providers.dart';
+part of 'animals_providers.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -23,7 +23,7 @@ final animalsPagingProvider =
 
 typedef AnimalsPagingRef
     = AutoDisposeProviderRef<PagingController<int, Animal>>;
-String _$animalsListHash() => r'5f336d9428476c67134458a99d970076bbfc54a9';
+String _$animalsListHash() => r'489c301efc75b51491f921ba64df5ac5df829e59';
 
 /// Copied from Dart SDK
 class _SystemHash {

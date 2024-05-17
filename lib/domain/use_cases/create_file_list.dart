@@ -7,9 +7,11 @@ import '../models/comment.dart';
 
 const pageSize = 20;
 
-Future<List<Animal>> createFileList(List<String> fileList, int pageKey) async {
+Future<List<Animal>> createFileList(List<String> fileList, int pageKey, Map<String, bool> pagesSelection) async {
   List<Animal> combinedListsImages = [];
   List<String> alreadyDownloaded = [];
+
+  fileList = removeUnselectedPages(fileList, pagesSelection);
 
   final reversedList = fileList.reversed.toList();
   List<String> pagingList = setPagedList(reversedList, pageKey);
@@ -45,4 +47,12 @@ Future<List<List<String>>> getFileLists() async {
     newLists.add(fileList);
   }
   return newLists;
+}
+
+List<String> removeUnselectedPages(List<String> fileList, Map<String, bool> pagesSelection) {
+  final page = fileList[0].split("/")[0];
+  if (pagesSelection[page] == false) {
+    return [];
+  }
+  return fileList;
 }

@@ -10,7 +10,6 @@ Future<List<Animal>> createImagesList(List<String> pagingList) async {
   String previousImageName = "";
   List<Uint8List> picturesFolder = [];
   List<String> fileNames = [];
-  final stopwatch = Stopwatch()..start();
   for (final item in pagingList) {
     if (item.contains('.jpg')) {
       final fileNameSplit = item.split("/");
@@ -41,7 +40,5 @@ Future<List<Animal>> createImagesList(List<String> pagingList) async {
       previousImageName = file.fileName;
     }
   }
-  stopwatch.stop();
-  print('Function Execution Time images: ${stopwatch.elapsed}');
   return imagesList;
 }

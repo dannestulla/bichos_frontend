@@ -1,10 +1,11 @@
+import 'package:bichos_client/domain/providers/drawer_provider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../use_cases/create_file_list.dart';
 import '../models/animal.dart';
 import '../use_cases/utils.dart';
 
-part 'bichos_providers.g.dart';
+part 'animals_providers.g.dart';
 
 int currentPosition = 0;
 int fullPicturesListCount = 0;
@@ -18,11 +19,12 @@ PagingController<int, Animal> animalsPaging(AnimalsPagingRef ref) {
 @riverpod
 Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
     final fileLists = await ref.watch(fileListsProvider.future);
+    final pagesSelection = ref.watch(drawerPageSelectionProvider);
 
     List<Future<List<Animal>>> futures = [];
 
     for (final fileList in fileLists) {
-      futures.add(createFileList(fileList, pageKey));
+      futures.add(createFileList(fileList, pageKey, pagesSelection));
     }
 
     final posts = await Future.wait(futures);
@@ -37,11 +39,14 @@ Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
     combinedPosts = combinedPosts.reversed.toList();
     fullPicturesListCount += combinedPosts.length;
 
-    final nextPageKey = pageKey + pageSize;
-    ref
-        .read(animalsPagingProvider)
-        .appendPage(combinedPosts, nextPageKey);
-
+    if (combinedPosts.isEmpty) {
+      ref.read(animalsPagingProvider).appendLastPage([]);
+    } else {
+      final nextPageKey = pageKey + pageSize;
+      ref
+          .read(animalsPagingProvider)
+          .appendPage(combinedPosts, nextPageKey);
+    }
 }
 
 @riverpod

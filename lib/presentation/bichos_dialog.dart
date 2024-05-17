@@ -10,7 +10,6 @@ import 'bichos_pageview.dart';
 void showImageDialog(BuildContext context, Animal animal) {
   final screenSize = MediaQuery.of(context).size;
   showDialog(
-
     context: context,
     builder: (BuildContext context) {
       return Dialog(

@@ -1,10 +1,12 @@
+import 'package:bichos_client/domain/providers/drawer_provider.dart';
+import 'package:bichos_client/presentation/bichos_drawer.dart';
 import 'package:bichos_client/presentation/bichos_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'domain/models/animal.dart';
-import 'domain/providers/bichos_providers.dart';
+import 'domain/providers/animals_providers.dart';
 import 'presentation/bichos_dialog.dart';
 
 void main() {
@@ -14,12 +16,15 @@ void main() {
     ),
   );
 }
+
 // Instagram Pages added to main screen
 const pages = [
   "meubichotasalvocanoas",
   "acheseupetrs",
   "acheseudogulbra",
-  "petresgatado_canoas"
+  "petresgatado_canoas",
+  "animaisresgatadosmathias",
+  'onlycats.canoas'
 ];
 
 class Bichos extends ConsumerStatefulWidget {
@@ -41,10 +46,21 @@ class BichosState extends ConsumerState<Bichos> {
   @override
   Widget build(BuildContext context) {
     final pagingController = ref.watch(animalsPagingProvider);
+    final drawerSelection = ref.watch(drawerPageSelectionProvider);
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return MaterialApp(
-      scrollBehavior: MyCustomScrollBehavior(),
+        scrollBehavior: MyCustomScrollBehavior(),
         home: Scaffold(
+            appBar: AppBar(leading: Builder(
+              builder: (context) {
+                return IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    });
+              },
+            )),
+            drawer: const BichosDrawer(),
             body: PagedGridView<int, Animal>(
                 pagingController: pagingController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,8 +72,8 @@ class BichosState extends ConsumerState<Bichos> {
                     itemBuilder: (context, item, index) {
                   return Card(
                       child: GestureDetector(
-                        onTap: () => showImageDialog(context, item),
-                        child: Image.memory(item.pictures[0]),
+                    onTap: () => showImageDialog(context, item),
+                    child:Image.memory(item.pictures[0])
                   ));
                 }))));
   }
