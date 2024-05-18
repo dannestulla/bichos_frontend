@@ -1,6 +1,7 @@
-import 'package:bichos_client/domain/providers/drawer_provider.dart';
+import 'package:bichosclient/domain/providers/drawer_provider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../config.dart';
 import '../use_cases/create_file_list.dart';
 import '../models/animal.dart';
 import '../use_cases/utils.dart';
@@ -20,15 +21,7 @@ PagingController<int, Animal> animalsPaging(AnimalsPagingRef ref) {
 Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
     final fileLists = await ref.watch(fileListsProvider.future);
     final pagesSelection = ref.watch(drawerPageSelectionProvider);
-
-    List<Future<List<Animal>>> futures = [];
-
-    for (final fileList in fileLists) {
-      futures.add(createFileList(fileList, pageKey, pagesSelection));
-    }
-
-    final posts = await Future.wait(futures);
-    List<Animal> combinedPosts = posts.expand((subList) => subList).toList();
+    final combinedPosts = await createAnimalsList(fileLists, pageKey, pagesSelection);
 
     combinedPosts.sort((a, b) {
       DateTime dateA = DateTime.parse(convertToISOFormat(a.date));
@@ -36,7 +29,6 @@ Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
       return dateA.compareTo(dateB);
     });
 
-    combinedPosts = combinedPosts.reversed.toList();
     fullPicturesListCount += combinedPosts.length;
 
     if (combinedPosts.isEmpty) {
@@ -50,6 +42,8 @@ Future<void> animalsList(AnimalsListRef ref, int pageKey) async {
 }
 
 @riverpod
-Future<List<List<String>>> fileLists(FileListsRef ref) async {
-  return getFileLists();
+Future<List<String>> fileLists(FileListsRef ref) async {
+  final filesLists = await getFileLists();
+  return filesLists;
 }
+

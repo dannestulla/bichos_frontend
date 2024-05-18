@@ -23,7 +23,7 @@ final animalsPagingProvider =
 
 typedef AnimalsPagingRef
     = AutoDisposeProviderRef<PagingController<int, Animal>>;
-String _$animalsListHash() => r'489c301efc75b51491f921ba64df5ac5df829e59';
+String _$animalsListHash() => r'79e49d46a319b469953c8bd22af0d58effbfaffa';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,12 +172,11 @@ class _AnimalsListProviderElement extends AutoDisposeFutureProviderElement<void>
   int get pageKey => (origin as AnimalsListProvider).pageKey;
 }
 
-String _$fileListsHash() => r'2ecdf8179ebd69efa31d9b21bfce99532696895b';
+String _$fileListsHash() => r'06ca0e96f30c131f5a5129dc97d8736c1cc398d0';
 
 /// See also [fileLists].
 @ProviderFor(fileLists)
-final fileListsProvider =
-    AutoDisposeFutureProvider<List<List<String>>>.internal(
+final fileListsProvider = AutoDisposeFutureProvider<List<String>>.internal(
   fileLists,
   name: r'fileListsProvider',
   debugGetCreateSourceHash:
@@ -186,6 +185,6 @@ final fileListsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FileListsRef = AutoDisposeFutureProviderRef<List<List<String>>>;
+typedef FileListsRef = AutoDisposeFutureProviderRef<List<String>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

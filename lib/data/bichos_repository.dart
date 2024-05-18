@@ -26,17 +26,26 @@ Future<String> downloadComment(String pageName, String fileName) async {
   return fileContent;
 }
 
-Future<List<List<String>>> downloadFileList() async {
-  List<List<String>> csvList = [];
-  for (final page in pages) {
-    final uri = Uri.parse("$bucketUrl/$page.csv");
+Future<List<String>> downloadFileList() async {
+  final uri = Uri.parse("$bucketUrl/combined_pages_data.csv");
+  final response = await http.get(uri, headers: {
+    'Authorization': 'Bearer $secretAccessKey'
+  });
+  final csvString = response.body.split("\r\n");
+
+  return csvString;
+}
+
+Future<List<String>> downloadIgnoredFiles() async {
+  List<String> csvString = [];
+  try {
+    final uri = Uri.parse("$bucketUrl/ignored_files.csv");
     final response = await http.get(uri, headers: {
       'Authorization': 'Bearer $secretAccessKey'
     });
-    final csvString = response.body;
-    final List<List<dynamic>> csvData = const CsvToListConverter().convert(csvString);
-    final List<String> csvStringList = csvData.map((row) => row.join(',')).toList();
-    csvList.add((csvStringList).toList());
+    csvString = response.body.split("\r\n");
+  } catch (error) {
+    print(error);
   }
-  return csvList;
+  return csvString;
 }

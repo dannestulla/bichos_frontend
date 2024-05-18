@@ -1,4 +1,4 @@
-# bichos_client
+# bichosclient
 
 A new Flutter project.
 

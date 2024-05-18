@@ -7,7 +7,7 @@ part of 'drawer_provider.dart';
 // **************************************************************************
 
 String _$drawerPageSelectionHash() =>
-    r'5622c197ab1f76847ac6c8b062da40ebdb7ba924';
+    r'9b028f595e64b4ff2d495bb1ce040edceb0128d3';
 
 /// See also [DrawerPageSelection].
 @ProviderFor(DrawerPageSelection)

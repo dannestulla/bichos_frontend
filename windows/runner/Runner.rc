@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "br.gohan" "\0"
-            VALUE "FileDescription", "bichos_client" "\0"
+            VALUE "FileDescription", "bichosclient" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "bichos_client" "\0"
+            VALUE "InternalName", "bichosclient" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 br.gohan. All rights reserved." "\0"
-            VALUE "OriginalFilename", "bichos_client.exe" "\0"
-            VALUE "ProductName", "bichos_client" "\0"
+            VALUE "OriginalFilename", "bichosclient.exe" "\0"
+            VALUE "ProductName", "bichosclient" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

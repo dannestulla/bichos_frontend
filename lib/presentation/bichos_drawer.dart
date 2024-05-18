@@ -1,7 +1,5 @@
-import 'package:bichos_client/domain/providers/drawer_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bichosclient/domain/providers/drawer_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/providers/animals_providers.dart';
@@ -17,7 +15,7 @@ class _BichosDrawer extends ConsumerState<BichosDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = ref.read(drawerPageSelectionProvider);
+    final pages = ref.watch(drawerPageSelectionProvider);
     return Drawer(
       child: ListView(padding: EdgeInsets.zero, children: [
         const DrawerHeader(
@@ -37,9 +35,9 @@ class _BichosDrawer extends ConsumerState<BichosDrawer> {
                 onChanged: (bool? value) {
                   setState(() {
                     pages[key] = value!;
+                    ref.watch(drawerPageSelectionProvider.notifier).toggle(pages);
                     ref.watch(animalsPagingProvider).refresh();
                   });
-                  ref.read(drawerPageSelectionProvider.notifier).toggle(pages);
                 });
           },
         ),

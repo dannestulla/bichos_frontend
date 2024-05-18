@@ -1,20 +1,20 @@
-import 'package:bichos_client/domain/use_cases/process_comments.dart';
-import 'package:bichos_client/domain/use_cases/process_images.dart';
+import 'package:bichosclient/domain/use_cases/process_comments.dart';
+import 'package:bichosclient/domain/use_cases/process_images.dart';
 
+import '../../config.dart';
 import '../../data/bichos_repository.dart';
 import '../models/animal.dart';
 import '../models/comment.dart';
 
-const pageSize = 20;
 
-Future<List<Animal>> createFileList(List<String> fileList, int pageKey, Map<String, bool> pagesSelection) async {
+
+Future<List<Animal>> createAnimalsList(List<String> fileList, int pageKey, Map<String, bool> pagesSelection) async {
   List<Animal> combinedListsImages = [];
   List<String> alreadyDownloaded = [];
 
   fileList = removeUnselectedPages(fileList, pagesSelection);
 
-  final reversedList = fileList.reversed.toList();
-  List<String> pagingList = setPagedList(reversedList, pageKey);
+  List<String> pagingList = setPagedList(fileList, pageKey);
 
   pagingList.removeWhere((element) => alreadyDownloaded.contains(element));
   alreadyDownloaded += pagingList;
@@ -36,23 +36,16 @@ List<String> setPagedList(List<String> reversedList, int initialPosition) {
   return pagingList;
 }
 
-Future<List<List<String>>> getFileLists() async {
+Future<List<String>> getFileLists() async {
   final fileLists = await downloadFileList();
-  List<List<String>> newLists = [];
-  List<String> list = [];
-  for (final fileList in fileLists) {
-    for (final file in fileList) {
-      list.add(file.split("\\").last);
-    }
-    newLists.add(fileList);
-  }
-  return newLists;
+  final ignoredFiles = await downloadIgnoredFiles();
+  final filteredFileList = fileLists.where((file) => !ignoredFiles.contains(file.split(".")[0])).toList();
+  return filteredFileList;
 }
 
 List<String> removeUnselectedPages(List<String> fileList, Map<String, bool> pagesSelection) {
-  final page = fileList[0].split("/")[0];
-  if (pagesSelection[page] == false) {
-    return [];
-  }
-  return fileList;
+  final newList = fileList.where((element) {
+    return pagesSelection[element.split("/")[0]] == true;
+  }).toList();
+  return newList;
 }

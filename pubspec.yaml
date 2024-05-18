@@ -1,4 +1,4 @@
-name: bichos_client
+name: bichosclient
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -35,6 +35,8 @@ dependencies:
   riverpod_annotation: ^2.3.5
   infinite_scroll_pagination: ^4.0.0
   page_view_dot_indicator: ^2.3.0
+  csv: ^5.0.0
+  quiver: ^3.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -50,7 +52,6 @@ dev_dependencies:
   riverpod_lint: ^2.3.10
   json_serializable: ^6.8.0
   url_launcher: ^6.1.5
-  csv: ^5.0.0
   collection: ^1.15.0
   freezed: 2.5.2
 

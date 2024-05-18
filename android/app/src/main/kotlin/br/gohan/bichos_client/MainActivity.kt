@@ -1,4 +1,4 @@
-package br.gohan.bichos_client
+package br.gohan.bichosclient
 
 import io.flutter.embedding.android.FlutterActivity
 

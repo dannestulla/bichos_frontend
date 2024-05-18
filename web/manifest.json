@@ -1,6 +1,6 @@
 {
-    "name": "bichos_client",
-    "short_name": "bichos_client",
+    "name": "bichosclient",
+    "short_name": "bichosclient",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
