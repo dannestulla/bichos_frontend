@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'drawer_provider.dart';
+part of 'location_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$drawerPageSelectionHash() =>
-    r'9365d0f70c466cb254254206dc9231afd76cd836';
+String _$locationDialogHash() => r'14251bb5a67127dce6c4bed47972833c49081f20';
 
-/// See also [DrawerPageSelection].
-@ProviderFor(DrawerPageSelection)
-final drawerPageSelectionProvider = AutoDisposeNotifierProvider<
-    DrawerPageSelection, Map<String, bool>>.internal(
-  DrawerPageSelection.new,
-  name: r'drawerPageSelectionProvider',
+/// See also [LocationDialog].
+@ProviderFor(LocationDialog)
+final locationDialogProvider =
+    AutoDisposeNotifierProvider<LocationDialog, Map<String, bool>>.internal(
+  LocationDialog.new,
+  name: r'locationDialogProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$drawerPageSelectionHash,
+      : _$locationDialogHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$DrawerPageSelection = AutoDisposeNotifier<Map<String, bool>>;
+typedef _$LocationDialog = AutoDisposeNotifier<Map<String, bool>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

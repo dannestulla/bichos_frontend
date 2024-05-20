@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../domain/models/animal.dart';
 import 'bichos_pageview.dart';
 
-void showImageDialog(BuildContext context, Animal animal) {
+void showImageDetails(BuildContext context, Animal animal) {
   final screenSize = MediaQuery.of(context).size;
   showDialog(
     context: context,

@@ -5,7 +5,7 @@ import '../../../credentials.dart';
 import 'package:csv/csv.dart';
 
 import '../domain/models/file.dart';
-import '../main.dart';
+import '../presentation/bichos_list.dart';
 
 
 Future<Uint8List> downloadImage(File file) async {

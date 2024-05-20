@@ -1,3 +1,4 @@
+import 'package:bichosclient/domain/providers/location_provider.dart';
 import 'package:bichosclient/domain/use_cases/process_comments.dart';
 import 'package:bichosclient/domain/use_cases/process_images.dart';
 
@@ -44,6 +45,21 @@ Future<List<String>> getFileLists() async {
 }
 
 List<String> removeUnselectedPages(List<String> fileList, Map<String, bool> pagesSelection) {
+  if (checkedCities[canoas] == true) {
+    for (final page in pagesCanoas) {
+      pagesSelection[page] = true;
+    }
+  }
+  if (checkedCities[portoAlegre] == true) {
+    for (final page in pagesPoa) {
+      pagesSelection[page] = true;
+    }
+  }
+  if (checkedCities[saoLeo] == true) {
+    for (final page in pagesSaoLeo) {
+      pagesSelection[page] = true;
+    }
+  }
   final newList = fileList.where((element) {
     return pagesSelection[element.split("/")[0]] == true;
   }).toList();
