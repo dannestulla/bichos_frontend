@@ -40,8 +40,8 @@ class _BichosDrawer extends ConsumerState<BichosDrawer> {
                 onChanged: (bool? value) {
                   setState(() {
                     pages[key] = value!;
-                    ref
-                        .watch(drawerPageSelectionProvider.notifier)
+                    print("key: $key, value: $value");
+                    ref.watch(drawerPageSelectionProvider.notifier)
                         .toggle(pages);
                     ref.watch(animalsPagingProvider).refresh();
                   });

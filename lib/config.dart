@@ -11,7 +11,8 @@ const pagesCanoas = [
   "resgatadoagoracanoas",
   "resgatados.pasqualini",
   "resgatadosnazario409",
-  "tosalvo.pet"
+  "tosalvo.pet",
+  'patamolhada.oficial'
 ];
 
 const pagesPoa = [
