@@ -1,16 +1,13 @@
-# bichosclient
+# Bichos-Perdidos.org
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+Application made to help find lost animals in 2024 Brazil's South floods. The objective was to channel all instagram pages to the same place. To accomplish this I made a webscrapper using python to collect all pictures of these pages, upload to a AWS bucket and show then using a Flutter frontend.
 
-This project is a starting point for a Flutter application.
+- [Website Bichos-perdidos.org](https://bichos-perdidos.org/)
+- [Link to Python Backend](https://github.com/dannestulla/bichos_data_scrapper)
 
-A few resources to get you started if this is your first Flutter project:
+ ## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![image](https://github.com/dannestulla/bichos_frontend/assets/62083486/98d89b66-f1a5-4577-99b5-3d76de96e5b6)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
